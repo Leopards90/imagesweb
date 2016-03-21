@@ -1,25 +1,34 @@
 <?php
 
-    error_reporting(E_ALL);
+error_reporting(E_ALL);
 
-    try {
+define('APP_PATH', realpath('..'));
 
-        /**
-         * Read the configuration
-         */
-        $config = include __DIR__ . "/../apps/config/config.php";
+try {
 
-        /**
-         * Read auto-loader in Moudel in backeend vs forntend
-         */
-        //include __DIR__ . "/../apps/econfig/loader.php";
+    /**
+     * Read the configuration
+     */
+    $config = include APP_PATH . "/app/config/config.php";
 
-        /**
-         * Read services
-         */
-        include __DIR__ . "/../apps/config/services.php";
+    /**
+     * Read auto-loader
+     */
+    include APP_PATH . "/app/config/loader.php";
 
-    } catch (Exception $e) {
-        echo $e->getMessage(), '<br>';
-        echo nl2br(htmlentities($e->getTraceAsString()));
-    }
+    /**
+     * Read services
+     */
+    include APP_PATH . "/app/config/services.php";
+
+    /**
+     * Handle the request
+     */
+    $application = new \Phalcon\Mvc\Application($di);
+
+    echo $application->handle()->getContent();
+
+} catch (\Exception $e) {
+    echo $e->getMessage() . '<br>';
+    echo '<pre>' . $e->getTraceAsString() . '</pre>';
+}

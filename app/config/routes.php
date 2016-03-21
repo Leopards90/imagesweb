@@ -1,23 +1,30 @@
 <?php
 
-use Phalcon\Mvc\Router;
+$router = new Phalcon\Mvc\Router(false);
 
-$router = new Router();
+$router->add('/:controller/:action/:params', array(
+	'namespace' => 'Train\Controllers',
+	'controller' => 1,
+	'action' => 2,
+	'params' => 3,
+));
 
-$router->add(
-    "/login",
-    array(
-        'controller' => 'login',
-        'action'     => 'index'
-    )
-);
+$router->add('/:controller', array(
+	'namespace' => 'Train\Controllers',
+	'controller' => 1
+));
 
-$router->add(
-    "/products/:action",
-    array(
-        'controller' => 'products',
-        'action'     => 1
-    )
-);
+$router->add('/admin/:controller/:action/:params', array(
+	'namespace' => 'Train\Controllers\Admin',
+	'controller' => 1,
+	'action' => 2,
+	'params' => 3,
+));
+
+$router->add('/admin/:controller', array(
+	'namespace' => 'Train\Controllers\Admin',
+	'controller' => 1
+));
+
 
 return $router;
